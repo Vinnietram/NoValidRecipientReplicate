@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net.Mail;
 using System.Threading;
 using FakeSmtpClient;
@@ -12,7 +13,7 @@ namespace SmtpClientApp
 
         static void Main(string[] args)
         {
-            Console.WriteLine("Press F1 to start sencding messages");
+            Console.WriteLine("Press F1 to start sending messages");
             while (!(Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.F1))
             {
 
@@ -31,8 +32,8 @@ namespace SmtpClientApp
             {
                 var mailMessage = CreateMailMessage();
                 _fakeSmtpClient.Send(MimeMessage.CreateFromMailMessage(mailMessage),
-                    new MailboxAddress(string.Empty, string.Empty),
-                    new[] {new MailboxAddress("Dick", "dick@mail.localhost.com")});
+                    new MailboxAddress(mailMessage.From.User, mailMessage.From.Address),
+                    new[] {new MailboxAddress(mailMessage.To.First().User, mailMessage.To.First().Address)});
             }
         }
 
@@ -46,7 +47,7 @@ namespace SmtpClientApp
         private static MailMessage CreateMailMessage()
         {
             var mailMessage = new MailMessage { From = new MailAddress("tom@mail.localhost.com") };
-            mailMessage.To.Add("dick@mail.mail.localhost.com");
+            mailMessage.To.Add("dick@mail.localhost.com");
             mailMessage.Subject = "Test Subject";
             mailMessage.Body = "Test Body";
             mailMessage.IsBodyHtml = false;

@@ -1,5 +1,7 @@
 # NoValidRecipientReplicate
 
+Note: ensure that port 50000 is not being used prior to test.
+
 1.  Open "NoValidRecipientReplicate.sln" with VS2015
 2.  Build Solution
 3.  Set breakpoint on line 20 of "~\NoValidRecipientReplicate\FakeSmtpClient\SmtpRelayClientImp.cs"
